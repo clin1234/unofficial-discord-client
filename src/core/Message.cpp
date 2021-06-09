@@ -39,11 +39,15 @@ void Message::unmarshal(const QJsonObject &obj)
             }
             l.emplace(id, intid);
         }
-        const Role &r{
-            o["id"].toString().toULongLong(), o["name"].toString(),
-            o["color"].toString().toULong(), o["hoisted"].toBool(),
-            o["position"].toString().toUInt(), o["permissions"].toString(),
-            o["managed"].toBool(), o["mentionable"].toBool(), l };
+        const Role &r{ o["id"].toString().toULongLong(),
+                       o["name"].toString(),
+                       o["color"].toString().toULong(),
+                       o["hoisted"].toBool(),
+                       o["position"].toString().toUInt(),
+                       o["permissions"].toString(),
+                       o["managed"].toBool(),
+                       o["mentionable"].toBool(),
+                       l };
         mentioned_roles.emplace_back(r);
     }
     const auto &attac{ obj["attachments"].toArray() };
@@ -61,11 +65,15 @@ void Message::unmarshal(const QJsonObject &obj)
             }
             l.emplace(id, intid);
         }
-        const Role &r{
-            o["id"].toString().toULongLong(), o["name"].toString(),
-            o["color"].toString().toULong(), o["hoisted"].toBool(),
-            o["position"].toString().toUInt(), o["permissions"].toString(),
-            o["managed"].toBool(), o["mentionable"].toBool(), l };
+        const Role &r{ o["id"].toString().toULongLong(),
+                       o["name"].toString(),
+                       o["color"].toString().toULong(),
+                       o["hoisted"].toBool(),
+                       o["position"].toString().toUInt(),
+                       o["permissions"].toString(),
+                       o["managed"].toBool(),
+                       o["mentionable"].toBool(),
+                       l };
         attachments.emplace_back(r);
     }
 }
