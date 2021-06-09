@@ -58,6 +58,8 @@ class Message
     const QList<Role> &getMentioned_roles() const;
     const QList<Attachment> &getAttachments() const;
 
+    bool getPinned() const;
+
   private:
     snowflake m_id;
     snowflake m_channelID;
@@ -66,7 +68,7 @@ class Message
     QString m_content;
     QDateTime m_timestamp, m_edited_timestamp;
     Type m_type;
-    bool tts, mentions_all;
+    bool tts, mentions_all, pinned;
     QList<Role> mentioned_roles;
     QList<Attachment> attachments;
 };
