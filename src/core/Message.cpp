@@ -1,11 +1,11 @@
 #include "Message.hpp"
 
-#include "Role.hpp"
-
 #include <QJsonArray>
 
 //#include <utility>
 
+// TODO: maybe refactor when unmarshalling properties containing array of
+// objects?
 void Message::unmarshal(const QJsonObject &obj)
 {
     // clazy:excludeall=qt4-qstring-from-array
@@ -28,53 +28,17 @@ void Message::unmarshal(const QJsonObject &obj)
     // GULP!
     for (const auto &k : roles) {
         const auto &o{ k.toObject() };
-        QJsonObject t;
-        optional<Role::Tags> l;
-        if (!o["tags"].isUndefined()) {
-            t = o["tags"].toObject();
-            optional<snowflake> id, intid;
-            if (!o["id"].isUndefined() && !o["integration_id"].isUndefined()) {
-                id.emplace(t["id"].toString().toULongLong());
-                intid.emplace(t["integration_id"].toString().toULongLong());
-            }
-            l.emplace(id, intid);
-        }
-        const Role &r{ o["id"].toString().toULongLong(),
-                       o["name"].toString(),
-                       o["color"].toString().toULong(),
-                       o["hoisted"].toBool(),
-                       o["position"].toString().toUInt(),
-                       o["permissions"].toString(),
-                       o["managed"].toBool(),
-                       o["mentionable"].toBool(),
-                       l };
-        mentioned_roles.emplace_back(r);
+        Role j{};
+        j.unmarshal(o);
+        mentioned_roles.emplace_back(j);
     }
     const auto &attac{ obj["attachments"].toArray() };
     // GULP! Again!
     for (const auto &k : attac) {
         const auto &o{ k.toObject() };
-        QJsonObject t;
-        optional<Role::Tags> l;
-        if (!o["tags"].isUndefined()) {
-            t = o["tags"].toObject();
-            optional<snowflake> id, intid;
-            if (!o["id"].isUndefined() && !o["integration_id"].isUndefined()) {
-                id.emplace(t["id"].toString().toULongLong());
-                intid.emplace(t["integration_id"].toString().toULongLong());
-            }
-            l.emplace(id, intid);
-        }
-        const Role &r{ o["id"].toString().toULongLong(),
-                       o["name"].toString(),
-                       o["color"].toString().toULong(),
-                       o["hoisted"].toBool(),
-                       o["position"].toString().toUInt(),
-                       o["permissions"].toString(),
-                       o["managed"].toBool(),
-                       o["mentionable"].toBool(),
-                       l };
-        attachments.emplace_back(r);
+        Attachment b;
+        b.unmarshall(o);
+        attachments.emplace_back(b);
     }
 }
 
@@ -142,4 +106,9 @@ const QList<Attachment> &Message::getAttachments() const
 bool Message::getPinned() const
 {
     return pinned;
+}
+
+const QList<Embed> &Message::getEmbeds() const
+{
+    return embeds;
 }
