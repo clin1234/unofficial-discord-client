@@ -1,5 +1,4 @@
-#ifndef ROLE_HPP
-#define ROLE_HPP
+#pragma once
 
 #include "Types.hpp"
 
@@ -38,6 +37,7 @@ class Role
         m_color(color)
     {
     }
+    Role() = default;
 
     unsigned long position() const;
 
@@ -49,5 +49,3 @@ class Role
 
     optional<Tags> m_tags;
 };
-
-#endif // ROLE_HPP
