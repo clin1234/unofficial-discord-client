@@ -61,6 +61,8 @@ class Message
 
     bool getPinned() const;
 
+    const QList<Embed> &getEmbeds() const;
+
   private:
     snowflake m_id;
     snowflake m_channelID;

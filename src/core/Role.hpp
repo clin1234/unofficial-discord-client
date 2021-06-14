@@ -24,7 +24,10 @@ class Role
         optional<snowflake> id, integration_id;
 
       public:
-        Tags(snowflake id, snowflake inte) : id(id), integration_id(inte) {}
+        Tags(optional<snowflake> id, optional<snowflake> inte) :
+            id(id), integration_id(inte)
+        {
+        }
     };
     optional<Tags> getTags() const;
     // Needed to construct from JSON within array of role objects found in user
