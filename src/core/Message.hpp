@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Attachment.hpp"
+#include "Component.hpp"
 #include "Embed.hpp"
 #include "Role.hpp"
 #include "Types.hpp"
@@ -56,12 +57,14 @@ class Message
     Type type() const;
     bool getTts() const;
     bool getMentions_all() const;
-    const QList<Role> &getMentioned_roles() const;
-    const QList<Attachment> &getAttachments() const;
+    const QList<Role &> &getMentioned_roles() const;
+    const QList<Attachment &> &getAttachments() const;
 
     bool getPinned() const;
 
-    const QList<Embed> &getEmbeds() const;
+    const QList<Embed &> &getEmbeds() const;
+
+    const QList<Action_Row> &getAction_rows() const;
 
   private:
     snowflake m_id;
@@ -72,7 +75,8 @@ class Message
     QDateTime m_timestamp, m_edited_timestamp;
     Type m_type;
     bool tts, mentions_all, pinned;
-    QList<Role> mentioned_roles;
-    QList<Attachment> attachments;
-    QList<Embed> embeds;
+    QList<Role &> mentioned_roles;
+    QList<Attachment &> attachments;
+    QList<Component &> action_rows;
+    QList<Embed &> embeds;
 };
