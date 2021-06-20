@@ -6,7 +6,10 @@ project(
   DESCRIPTION "Discord unofficial desktop application"
   LANGUAGES CXX)
 
-option(EXTERNAL_OPUS "Use existing Opus library instead of building a private copy from the Opus submodule")
+option(
+  EXTERNAL_OPUS
+  "Use existing Opus library instead of building a private copy from the Opus submodule"
+)
 option(OPUS_PATH "Path to Opus library")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -18,24 +21,29 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Git QUIET)
 if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
-# Update submodules as needed
-    option(GIT_SUBMODULE "Check submodules during build" ON)
-    if(GIT_SUBMODULE)
-        message(STATUS "Submodule update")
-        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --recursive
-                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                        RESULT_VARIABLE GIT_SUBMOD_RESULT)
-        if(NOT GIT_SUBMOD_RESULT EQUAL "0")
-            message(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
-        endif()
+  # Update submodules as needed
+  option(GIT_SUBMODULE "Check submodules during build" ON)
+  if(GIT_SUBMODULE)
+    message(STATUS "Submodule update")
+    execute_process(
+      COMMAND ${GIT_EXECUTABLE} submodule update --recursive
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      RESULT_VARIABLE GIT_SUBMOD_RESULT)
+    if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+      message(
+        FATAL_ERROR
+          "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules"
+      )
     endif()
+  endif()
 endif()
 
 if(EXTERNAL_OPUS)
-    set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR/cmake/modules}")
-    find_package(Opus)
+  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
+                        "${CMAKE_SOURCE_DIR/cmake/modules}")
+  find_package(Opus)
 else()
-    add_subdirectory(opus)
+  add_subdirectory(opus)
 endif()
 
 if(MSVC)
